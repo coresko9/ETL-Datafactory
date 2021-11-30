@@ -1,0 +1,9 @@
+{
+	"name": "df-etl-sandbox",
+	"location": "southcentralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ba77b107-5910-4b2e-a339-eb273e7401d7",
+		"tenantId": "f32b97f0-efb8-4bc3-91ee-18a6e5f635c9"
+	}
+}
