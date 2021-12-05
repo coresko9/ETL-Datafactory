@@ -1,0 +1,65 @@
+{
+	"name": "Load Raw Covid Data",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load US Covid Data",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Main_ETL/Load_Raw_Tables/Load_UsCovidData",
+					"baseParameters": {
+						"Process_Time": {
+							"value": "@pipeline().parameters.ProcessTime",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Azure_Databricks_LS",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Load States Covid Data",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Main_ETL/Load_Raw_Tables/Load_StatesCovidData",
+					"baseParameters": {
+						"Process_Time": {
+							"value": "@pipeline().parameters.ProcessTime",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Azure_Databricks_LS",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"ProcessTime": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

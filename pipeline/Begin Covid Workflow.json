@@ -16,8 +16,8 @@
 				}
 			},
 			{
-				"name": "Pull Covid Data",
-				"type": "DatabricksNotebook",
+				"name": "Execute Pull Covid Data",
+				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
 						"activity": "Set Process Time",
@@ -26,59 +26,45 @@
 						]
 					}
 				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Main_ETL/Pull_Data/Pull_US_Covid_Data",
-					"baseParameters": {
-						"Process_Time": {
+					"pipeline": {
+						"referenceName": "Pull Covid Data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ProcessTime": {
 							"value": "@variables('ProcessTime')",
 							"type": "Expression"
 						}
 					}
-				},
-				"linkedServiceName": {
-					"referenceName": "Azure_Databricks_LS",
-					"type": "LinkedServiceReference"
 				}
 			},
 			{
-				"name": "Load Covid Data",
-				"type": "DatabricksNotebook",
+				"name": "Load Raw Covid Data",
+				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Pull Covid Data",
+						"activity": "Execute Pull Covid Data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Main_ETL/Auto_Loaders/US_Covid_Data-Autoloader",
-					"baseParameters": {
-						"Process_Time": {
+					"pipeline": {
+						"referenceName": "Load Raw Covid Data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ProcessTime": {
 							"value": "@variables('ProcessTime')",
 							"type": "Expression"
 						}
 					}
-				},
-				"linkedServiceName": {
-					"referenceName": "Azure_Databricks_LS",
-					"type": "LinkedServiceReference"
 				}
 			}
 		],
