@@ -17,7 +17,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Begin Covid Workflow')]",
+			"name": "[concat(parameters('factoryName'), '/Begin Workflow')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -36,7 +36,7 @@
 						}
 					},
 					{
-						"name": "Execute Pull Covid Data",
+						"name": "Execute Pull Data",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -49,7 +49,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Pull Covid Data",
+								"referenceName": "Pull Data",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -62,11 +62,11 @@
 						}
 					},
 					{
-						"name": "Load Raw Covid Data",
+						"name": "Load Raw Data",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "Execute Pull Covid Data",
+								"activity": "Execute Pull Data",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -75,7 +75,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Load Raw Covid Data",
+								"referenceName": "Load Raw Data",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -100,8 +100,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Pull Covid Data')]",
-				"[concat(variables('factoryId'), '/pipelines/Load Raw Covid Data')]"
+				"[concat(variables('factoryId'), '/pipelines/Pull Data')]",
+				"[concat(variables('factoryId'), '/pipelines/Load Raw Data')]"
 			]
 		},
 		{
@@ -151,7 +151,7 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "Begin Covid Workflow",
+							"referenceName": "Begin Workflow",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -176,11 +176,11 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Begin Covid Workflow')]"
+				"[concat(variables('factoryId'), '/pipelines/Begin Workflow')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Pull Covid Data')]",
+			"name": "[concat(parameters('factoryName'), '/Pull Data')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -236,6 +236,32 @@
 							"referenceName": "Azure_Databricks_LS",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "Pull Us States Data",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Main_ETL/Pull_Data/Pull_Us_States_Data",
+							"baseParameters": {
+								"Process_Time": {
+									"value": "@pipeline().parameters.ProcessTime",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "Azure_Databricks_LS",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
@@ -254,7 +280,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Load Raw Covid Data')]",
+			"name": "[concat(parameters('factoryName'), '/Load Raw Data')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -299,6 +325,32 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebookPath": "/Main_ETL/Load_Raw_Tables/Load_StatesCovidData",
+							"baseParameters": {
+								"Process_Time": {
+									"value": "@pipeline().parameters.ProcessTime",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "Azure_Databricks_LS",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Load Us States Data",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Main_ETL/Load_Raw_Tables/Load_UsStatesData",
 							"baseParameters": {
 								"Process_Time": {
 									"value": "@pipeline().parameters.ProcessTime",
