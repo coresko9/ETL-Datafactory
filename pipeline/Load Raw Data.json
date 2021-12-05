@@ -53,6 +53,32 @@
 					"referenceName": "Azure_Databricks_LS",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Load Us States Data",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Main_ETL/Load_Raw_Tables/Load_UsStatesData",
+					"baseParameters": {
+						"Process_Time": {
+							"value": "@pipeline().parameters.ProcessTime",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Azure_Databricks_LS",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
