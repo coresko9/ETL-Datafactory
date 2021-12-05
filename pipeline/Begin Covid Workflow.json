@@ -35,7 +35,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Main_ETL/Pull_Data/Pull_Covid_Data",
+					"notebookPath": "/Main_ETL/Pull_Data/Pull_US_Covid_Data",
 					"baseParameters": {
 						"Process_Time": {
 							"value": "@variables('ProcessTime')",
