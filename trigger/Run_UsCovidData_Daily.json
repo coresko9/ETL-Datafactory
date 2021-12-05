@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "Begin Covid Workflow",
+					"referenceName": "Begin Workflow",
 					"type": "PipelineReference"
 				}
 			}

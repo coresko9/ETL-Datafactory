@@ -1,5 +1,5 @@
 {
-	"name": "Begin Covid Workflow",
+	"name": "Begin Workflow",
 	"properties": {
 		"activities": [
 			{
@@ -16,7 +16,7 @@
 				}
 			},
 			{
-				"name": "Execute Pull Covid Data",
+				"name": "Execute Pull Data",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -29,7 +29,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Pull Covid Data",
+						"referenceName": "Pull Data",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
@@ -42,11 +42,11 @@
 				}
 			},
 			{
-				"name": "Load Raw Covid Data",
+				"name": "Load Raw Data",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Execute Pull Covid Data",
+						"activity": "Execute Pull Data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -55,7 +55,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Load Raw Covid Data",
+						"referenceName": "Load Raw Data",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
